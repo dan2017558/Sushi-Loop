@@ -1,11 +1,10 @@
 import pygame
 import sys
+import config
 
 
 def main():
     pygame.init()
-    win = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption("GMTK Jam 2025")
 
     clock = pygame.time.Clock()
 
@@ -14,10 +13,17 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.VIDEORESIZE:  # window resize
+                config.rescale_screen(event.w, event.h)
 
-        win.fill((30, 30, 30))  # dark gray background
+        # Drawing
+        config.internal_surface.fill((0, 0, 0))  # reset
 
-        # TODO: Add game logic and drawing here
+
+        # Update Window
+        config.win.fill((0, 0, 0))
+        config.scaled_surface = pygame.transform.scale_by(config.internal_surface, config.scale)
+        config.win.blit(config.scaled_surface, config.letter_box_offset)
 
         pygame.display.flip()
         clock.tick(30)  # 30 FPS
