@@ -2,6 +2,7 @@ import sys
 import os
 import pygame
 import config
+from tools import Hand
 
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
@@ -12,9 +13,10 @@ def game():
     pygame.init()
 
     clock = pygame.time.Clock()
-
     running = True
     while running:
+        hand.update()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -35,6 +37,10 @@ def game():
         # table
         config.internal_surface.blit(table, (0, 30))
 
+        # hand + item
+        if hand.item:
+            config.internal_surface.blit(hand.item.image, hand.item.rect.topleft)
+        config.internal_surface.blit(hand.image, hand.rect.topleft)
         # Update Window
         config.win.fill((0, 0, 0))
         config.scaled_surface = pygame.transform.scale_by(config.internal_surface, config.scale)
@@ -48,6 +54,8 @@ def game():
 
 
 if __name__ == "__main__":
+    # Initialize Objects
+    hand = Hand()
     # Initialize Variables
     # conveyor belt
     belt_speed = 1
