@@ -16,6 +16,24 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
+# load highscore
+def load_highscore():
+    with open("highscore.txt", "r") as f:
+        return f.read().strip()
+
+
+# save highscore only if new score is higher
+def save_highscore(new_score):
+    if load_highscore():
+        current = int(load_highscore())
+        if new_score > current:
+            with open("highscore.txt", "w") as f:
+                f.write(str(new_score))
+    else:
+        with open("highscore.txt", "w") as f:
+            f.write(str(new_score))
+
+
 # Game
 score: int = 0
 time_left: int = 60

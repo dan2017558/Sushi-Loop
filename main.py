@@ -24,6 +24,7 @@ touch_SFX.set_volume(0.1)
 def game():
     global running, run_game, run_tutorial, tutorial_step
     if config.time_left - (pygame.time.get_ticks() - start_time) // 1000 <= 0 and not run_tutorial:
+        config.save_highscore(config.score)
         conveyor_belt_SFX.stop()
         run_game = False
         return
@@ -286,6 +287,10 @@ if __name__ == "__main__":
                     config.INTERNAL_HEIGHT * config.scale // 2 - 30 * config.scale,
                 ),
             )
+
+            # highscore
+            highscore_text = config.score_font.render(f"Highscore: {config.load_highscore()}", 1, (254, 231, 97))
+            config.text_surface.blit(highscore_text, (5 * config.scale, -2 * config.scale))
 
             config.internal_surface.blit(wallpaper, (0, 0))
         else:
