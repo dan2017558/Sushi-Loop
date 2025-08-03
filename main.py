@@ -7,7 +7,7 @@ from tools import Hand, Knife, Sauce
 from sushi import Roll, Sushi
 from build_sushi import Mat, recipes
 from ingredient import Tray, Ingredient
-from orders import Order
+from orders import Order, spawn
 
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
@@ -29,6 +29,7 @@ def game():
 
         config.internal_surface.fill((0, 0, 0, 0))  # reset
         config.text_surface.fill((0, 0, 0, 0))  # reset
+        spawn()  # tries to spawn order trays
         hand.update()
 
         def draw_button_hints():
@@ -150,9 +151,8 @@ def game():
 
         # Drawing
         # conveyor belt
-        global distance, belt_speed, belt_circumference
-        visual_displacement = distance % config.INTERNAL_WIDTH
-        distance += belt_speed
+        visual_displacement = config.distance % config.INTERNAL_WIDTH
+        config.distance += config.belt_speed
 
         config.internal_surface.blit(belt, pygame.Vector2(-visual_displacement, 0))
         config.internal_surface.blit(belt, pygame.Vector2(config.INTERNAL_WIDTH - visual_displacement, 0))
@@ -163,7 +163,7 @@ def game():
         # items
         for object in item.items:
             if type(object) is Order:  # update order trays
-                object.update(belt_circumference, belt_speed)
+                object.update()
 
             elif type(object) is Mat:
                 config.internal_surface.blit(object.image, object.rect.topleft)
@@ -222,14 +222,6 @@ if __name__ == "__main__":
     shrimp_tray = Tray("shrimp_tray", (4, 71))
     nori_tray = Tray("nori_tray", (31, 71))
     rice_tray = Tray("rice_tray", (2, 105))
-
-    # Initialize Variables
-    # conveyor belt
-    belt_speed = 1
-    belt_circumference = 480
-    distance = 0
-
-    order1 = Order(["tuna", "tuna"], 10)
 
     # Run main function
     game()

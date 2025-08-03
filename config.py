@@ -3,8 +3,17 @@ import pygame
 
 pygame.init()
 pygame.mouse.set_visible(False)
+
+# Game
 score: int = 0
-time_left: int = 30
+time_left: int = 60
+busyness: float = 0.5
+order_spots: int = [[i * 40, None] for i in range(480 // 40)]
+
+# conveyor belt
+belt_speed = 1
+belt_circumference = 480
+distance = 0
 
 
 # Text
