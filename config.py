@@ -18,7 +18,7 @@ def resource_path(relative_path):
 
 # load highscore
 def load_highscore():
-    with open("highscore.txt", "r") as f:
+    with open(resource_path("highscore.txt"), "r") as f:
         return f.read().strip()
 
 
@@ -27,10 +27,10 @@ def save_highscore(new_score):
     if load_highscore():
         current = int(load_highscore())
         if new_score > current:
-            with open("highscore.txt", "w") as f:
+            with open(resource_path("highscore.txt"), "w") as f:
                 f.write(str(new_score))
     else:
-        with open("highscore.txt", "w") as f:
+        with open(resource_path("highscore.txt"), "w") as f:
             f.write(str(new_score))
 
 
