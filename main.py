@@ -5,12 +5,15 @@ import config
 import item
 from tools import Hand, Knife, Sauce
 from build_sushi import Mat
+from sushi import Roll, Sushi
 from ingredient import Tray, Ingredient
 from orders import Order
 
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
 table = pygame.image.load(os.path.join("assets", "table.png"))
+touch_SFX = pygame.mixer.Sound("assets/touch.wav")
+touch_SFX.set_volume(0.1)
 
 
 def game():
@@ -30,6 +33,65 @@ def game():
             elif event.type == pygame.VIDEORESIZE:  # window resize
                 config.rescale_screen(event.w, event.h)
 
+            # PICKUP - HOLD LEFT CLICK
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                touch_SFX.play()
+
+                for obj in item.items:
+                    if hand.rect.colliderect(obj.rect):
+                        if isinstance(obj, Tray):  # get ingredient
+                            hand.item = obj.produce()
+
+                        elif not isinstance(obj, Order):  # hold anything but order
+                            hand.item = obj
+
+                        if isinstance(obj, Sushi):  # make the sushi face up
+                            obj.turn()
+
+                        if hand.item:
+                            item.items.remove(hand.item)
+                            item.items.append(hand.item)
+                            hand.update()
+                            break
+
+            # DROP - RELEASE LEFT CLICK
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                touch_SFX.play()
+
+                if hand.item:
+                    if isinstance(hand.item, Ingredient):  # check if player is trying to place ingredient
+                        for mat in filter(lambda x: isinstance(x, Mat), item.items):
+                            if hand.item.rect.colliderect(mat.rect):
+                                mat.try_place(hand.item, hand)
+
+                    elif isinstance(hand.item, Sushi):  # check if player is trying to place sushi in order
+                        for order_tray in filter(lambda x: isinstance(x, Order), item.items):
+                            if hand.item.rect.colliderect(order_tray.rect):
+                                order_tray.add_item(hand.item)
+
+                hand.item = None
+
+            # USE - PRESS SPACE BAR
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                if not hand.item:
+                    continue
+
+                match hand.item:
+                    case Knife():  # cut roll
+                        for sushi in filter(lambda x: isinstance(x, Roll), item.items):
+                            if hand.item.rect.colliderect(sushi.rect):
+                                sushi.cut()
+                                break
+
+                    case Sauce():  # apply sauce
+                        for mat in filter(lambda x: isinstance(x, Mat), item.items):
+                            if hand.item.rect.colliderect(mat.rect):
+                                mat.try_place("sauce", hand)
+                                break
+
+                    case Mat():  # roll mat
+                        if hand.item.complete:
+                            hand.item.roll()
 
         # Drawing
         # conveyor belt
