@@ -82,11 +82,11 @@ def generate_order(spot_index: int):
     order = random.sample(["rice", "tuna", "salmon", "shrimp"], food_variety)
 
     # calculate reward
-    base = num_items * 2 + food_variety * 2
-    variation = random.uniform(0.9, 1.1)
+    base = num_items * 5 + food_variety * 6  # weighted sum
+    variation = random.uniform(0.9, 1.1)  # slight random fuzz
 
     reward = int(base * variation)
-    reward = max(5, min(25, reward))  # Clamp reward to range
+    reward = max(10, min(50, reward))  # clamp to 10–50 range
 
     # fill order
     for i in range(num_items - food_variety):
