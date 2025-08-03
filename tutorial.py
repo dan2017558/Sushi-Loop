@@ -4,7 +4,8 @@ import config
 helper = pygame.image.load(config.resource_path("assets/helper.png"))
 
 steps = {
-    1: ["Press 'S' to skip this tutorial", "Use < and > to navigate steps"],
+    0: ["Press 'S' to skip this tutorial", "Use < and > to navigate steps"],
+    1: ["Press 'H' to toggle button hints"],
     2: ["Your goal is to reach the highest", "score possible before time runs out."],
     3: ["If the timer hits 0, the game ends", "and you'll return to the menu."],
     4: ["Gain score by satisfying the trays", "moving along the conveyor belt."],

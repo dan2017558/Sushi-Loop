@@ -17,6 +17,7 @@ class Sushi(item.Item):
 
     def turn(self):
         self.image = Sushi.images[self.piece_type]
+        self.name = f"{self.piece_type} sushi"
 
 
 class Roll(item.Item):

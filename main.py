@@ -22,7 +22,7 @@ touch_SFX.set_volume(0.1)
 
 
 def game():
-    global running, run_game, run_tutorial, tutorial_step
+    global running, run_game, run_tutorial, tutorial_step, button_hints
     if config.time_left - (pygame.time.get_ticks() - start_time) // 1000 <= 0 and not run_tutorial:
         config.save_highscore(config.score)
         conveyor_belt_SFX.stop()
@@ -37,6 +37,9 @@ def game():
             if hand.rect.colliderect(obj.rect):
                 # HOLDING OBJECTS
                 if not isinstance(obj, Order):
+                    text = config.order_font.render(obj.name, 1, (24, 20, 37))
+                    config.text_surface.blit(text, (obj.rect.left * config.scale, obj.rect.top * config.scale))
+
                     config.text_surface.blit(
                         config.left_click,
                         (
@@ -127,8 +130,8 @@ def game():
 
             hand.item = None
 
-        # USE - PRESS SPACE BAR
         elif event.type == pygame.KEYDOWN:
+            # USE - PRESS SPACE BAR
             if event.key == pygame.K_SPACE:
                 if not hand.item:
                     continue
@@ -150,6 +153,9 @@ def game():
                         if hand.item.complete:
                             hand.item.roll()
 
+            elif event.key == pygame.K_h:  # toggle button hints
+                button_hints = not button_hints
+
             # TUTORIAL
             if run_tutorial:
                 if event.key == pygame.K_s:
@@ -158,8 +164,8 @@ def game():
 
                 elif event.key == pygame.K_LEFT:
                     tutorial_step -= 1
-                    if tutorial_step < 1:
-                        tutorial_step = 1
+                    if tutorial_step < 0:
+                        tutorial_step = 0
                 elif event.key == pygame.K_RIGHT:
                     tutorial_step += 1
                     if tutorial_step > 30:
@@ -210,13 +216,15 @@ def game():
     )
 
     # button hints
-    draw_button_hints()
+    if button_hints:
+        draw_button_hints()
 
     if run_tutorial:
         tutorial.tutorial(tutorial_step)
 
 
 if __name__ == "__main__":
+    button_hints = True
     running = True
     run_game = False
     run_tutorial = True
@@ -245,7 +253,7 @@ if __name__ == "__main__":
         conveyor_belt_SFX.play(-1)
         run_game = True
         run_tutorial = True
-        tutorial_step = 1
+        tutorial_step = 0
 
     while running:
         config.internal_surface.fill((0, 0, 0, 0))  # reset
