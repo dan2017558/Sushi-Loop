@@ -4,14 +4,17 @@ import pygame
 import config
 import item
 from tools import Hand, Knife, Sauce
-from build_sushi import Mat
 from sushi import Roll, Sushi
+from build_sushi import Mat, recipes
 from ingredient import Tray, Ingredient
 from orders import Order
 
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
 table = pygame.image.load(os.path.join("assets", "table.png"))
+left_click = pygame.image.load(os.path.join("assets", "mouse_left.png"))
+space_click = pygame.image.load(os.path.join("assets", "keyboard_space.png"))
+
 touch_SFX = pygame.mixer.Sound("assets/touch.wav")
 touch_SFX.set_volume(0.1)
 
@@ -28,6 +31,39 @@ def game():
         config.internal_surface.fill((0, 0, 0, 0))  # reset
         config.text_surface.fill((0, 0, 0, 0))  # reset
         hand.update()
+
+        def draw_button_hints():
+            for obj in item.items:
+                if hand.rect.colliderect(obj.rect):
+                    # HOLDING OBJECTS
+                    if not isinstance(obj, Order):
+                        config.text_surface.blit(
+                            left_click, (config.WINDOW_WIDTH - 128, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2
+                        )
+
+                    # USING ITEMS
+                    if isinstance(hand.item, Mat) and hand.item.complete:  # roll mat
+                        config.text_surface.blit(
+                            space_click, (config.WINDOW_WIDTH - 64, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2
+                        )
+
+                    if isinstance(hand.item, Knife):  # cut roll
+                        for sushi in filter(lambda x: isinstance(x, Roll), item.items):
+                            if hand.item.rect.colliderect(sushi.rect):
+                                config.text_surface.blit(
+                                    space_click,
+                                    (config.WINDOW_WIDTH - 64, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2,
+                                )
+
+                    if isinstance(hand.item, Sauce):  # apply sauce
+                        for mat in filter(lambda x: isinstance(x, Mat), item.items):
+                            if hand.item.rect.colliderect(mat.rect):
+                                for food in mat.projected:
+                                    if recipes[food][len(mat.contents)] == "sauce":
+                                        config.text_surface.blit(
+                                            space_click,
+                                            (config.WINDOW_WIDTH - 64, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2,
+                                        )
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -133,6 +169,9 @@ def game():
         config.text_surface.blit(
             score_text, (config.WINDOW_WIDTH // 2 - score_text.get_rect()[2] // 2, score_text.get_rect()[3] + 30 * config.scale)
         )
+
+        # button hints
+        draw_button_hints()
 
         # Update Window
         config.win.fill((0, 0, 0))
