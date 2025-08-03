@@ -15,6 +15,9 @@ table = pygame.image.load(os.path.join("assets", "table.png"))
 touch_SFX = pygame.mixer.Sound("assets/touch.wav")
 touch_SFX.set_volume(0.1)
 
+font_path = os.path.join("assets", "Font.ttf")
+score_font = pygame.font.Font(font_path, 40)
+
 
 def game():
     pygame.init()
@@ -124,6 +127,13 @@ def game():
             if type(hand.item) is Mat:  # update the position of the food within the mat
                 config.internal_surface.blit(hand.item.food_image, hand.item.rect.topleft + pygame.Vector2(2, 1))
         config.internal_surface.blit(hand.image, hand.rect.topleft)
+
+        # score
+        score_text = score_font.render(f"Score: {config.score}", 1, (255, 255, 255))
+        config.text_surface.blit(
+            score_text, (config.WINDOW_WIDTH // 2 - score_text.get_rect()[2] // 2, score_text.get_rect()[3] + 30 * config.scale)
+        )
+
         # Update Window
         config.win.fill((0, 0, 0))
         config.scaled_surface = pygame.transform.scale_by(config.internal_surface, config.scale)

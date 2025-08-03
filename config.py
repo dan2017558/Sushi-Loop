@@ -3,6 +3,7 @@ import pygame
 
 pygame.init()
 pygame.mouse.set_visible(False)
+score: int = 0
 
 
 # Constants
