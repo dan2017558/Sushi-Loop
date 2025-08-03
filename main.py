@@ -4,7 +4,7 @@ import pygame
 import config
 import item
 from tools import Hand, Knife, Sauce
-from ingredient import Tray
+from ingredient import Tray, Ingredient
 
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
