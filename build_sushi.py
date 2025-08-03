@@ -21,7 +21,7 @@ recipes: dict[str, list[str]] = {
 
 class Mat(item.Item):
     def __init__(self):
-        super().__init__("mat", (202, 45))
+        super().__init__("mat", (115, 75))
         self.contents: list = []
         self.food_image: pygame.Surface = pygame.Surface((16, 20), pygame.SRCALPHA)
         self.projected: list[str] = ["rice_roll"]

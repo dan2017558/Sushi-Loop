@@ -22,9 +22,9 @@ class Hand(Item):
 
 class Knife(Item):
     def __init__(self):
-        super().__init__("knife", (191, 62))
+        super().__init__("knife", (150, 70))
 
 
 class Sauce(Item):
     def __init__(self):
-        super().__init__("sauce", (173, 42))
+        super().__init__("sauce", (100, 80))
