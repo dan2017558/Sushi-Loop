@@ -2,7 +2,9 @@ import sys
 import os
 import pygame
 import config
+import item
 from tools import Hand, Knife, Sauce
+from ingredient import Tray
 
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
@@ -63,6 +65,13 @@ if __name__ == "__main__":
     hand = Hand()
     knife = Knife()
     sauce = Sauce()
+
+    salmon_tray = Tray("salmon_tray", (4, 37))
+    tuna_tray = Tray("tuna_tray", (31, 37))
+    shrimp_tray = Tray("shrimp_tray", (4, 71))
+    nori_tray = Tray("nori_tray", (31, 71))
+    rice_tray = Tray("rice_tray", (2, 105))
+
     # Initialize Variables
     # conveyor belt
     belt_speed = 1
