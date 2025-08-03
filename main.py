@@ -2,7 +2,7 @@ import sys
 import os
 import pygame
 import config
-from tools import Hand
+from tools import Hand, Knife, Sauce
 
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
@@ -37,6 +37,11 @@ def game():
         # table
         config.internal_surface.blit(table, (0, 30))
 
+        # items
+        for object in item.items:
+            if object != hand.item:  # not what the player is holding
+                config.internal_surface.blit(object.image, object.rect.topleft)
+
         # hand + item
         if hand.item:
             config.internal_surface.blit(hand.item.image, hand.item.rect.topleft)
@@ -56,6 +61,8 @@ def game():
 if __name__ == "__main__":
     # Initialize Objects
     hand = Hand()
+    knife = Knife()
+    sauce = Sauce()
     # Initialize Variables
     # conveyor belt
     belt_speed = 1

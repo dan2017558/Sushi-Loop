@@ -19,3 +19,12 @@ class Hand(Item):
                 self.rect.top - self.item.image.get_height() // 2,
             )
 
+
+class Knife(Item):
+    def __init__(self):
+        super().__init__("knife", (191, 62))
+
+
+class Sauce(Item):
+    def __init__(self):
+        super().__init__("sauce", (173, 42))
