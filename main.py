@@ -79,6 +79,9 @@ def game():
                 running = False
 
             elif event.type == pygame.VIDEORESIZE:  # window resize
+                # can't resize to a size smaller than internal dimensions
+                event.w = event.w if event.w >= config.INTERNAL_WIDTH else config.INTERNAL_WIDTH
+                event.h = event.h if event.h >= config.INTERNAL_HEIGHT else config.INTERNAL_HEIGHT
                 config.rescale_screen(event.w, event.h)
 
             # PICKUP - HOLD LEFT CLICK
