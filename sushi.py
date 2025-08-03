@@ -1,14 +1,14 @@
-import os
 import pygame
+import config
 import item
 
 
 class Sushi(item.Item):
     images = {
-        "rice": pygame.image.load(os.path.join("assets", "rice_sushi.png")),
-        "tuna": pygame.image.load(os.path.join("assets", "tuna_sushi.png")),
-        "salmon": pygame.image.load(os.path.join("assets", "salmon_sushi.png")),
-        "shrimp": pygame.image.load(os.path.join("assets", "shrimp_sushi.png")),
+        "rice": pygame.image.load(config.resource_path("assets/rice_sushi.png")),
+        "tuna": pygame.image.load(config.resource_path("assets/tuna_sushi.png")),
+        "salmon": pygame.image.load(config.resource_path("assets/salmon_sushi.png")),
+        "shrimp": pygame.image.load(config.resource_path("assets/shrimp_sushi.png")),
     }
 
     def __init__(self, name, position, piece_type):

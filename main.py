@@ -1,5 +1,4 @@
 import sys
-import os
 import pygame
 import config
 import item
@@ -11,11 +10,14 @@ from ingredient import Tray, Ingredient
 from orders import Order, spawn
 
 # assets
-wallpaper = pygame.image.load(os.path.join("assets", "wallpaper.png"))
-belt = pygame.image.load(os.path.join("assets", "belt.png"))
-table = pygame.image.load(os.path.join("assets", "table.png"))
+wallpaper = pygame.image.load(config.resource_path("assets/wallpaper.png"))
+belt = pygame.image.load(config.resource_path("assets/belt.png"))
+table = pygame.image.load(config.resource_path("assets/table.png"))
 
-touch_SFX = pygame.mixer.Sound("assets/touch.wav")
+conveyor_belt_SFX = pygame.mixer.Sound(config.resource_path("assets/conveyor_belt.wav"))
+conveyor_belt_SFX.set_volume(0.25)
+
+touch_SFX = pygame.mixer.Sound(config.resource_path("assets/touch.wav"))
 touch_SFX.set_volume(0.1)
 
 

@@ -1,14 +1,22 @@
-import os
 import pygame
 from sprite_sheet import get_frame
 import item
 from sushi import Roll
+import config
 
 foods = {
-    "rice_roll": [get_frame(pygame.image.load(os.path.join("assets", "rice_roll.png")), frame, 16, 20) for frame in range(2)],
-    "tuna_roll": [get_frame(pygame.image.load(os.path.join("assets", "tuna_roll.png")), frame, 16, 20) for frame in range(3)],
-    "salmon_roll": [get_frame(pygame.image.load(os.path.join("assets", "salmon_roll.png")), frame, 16, 20) for frame in range(3)],
-    "shrimp_roll": [get_frame(pygame.image.load(os.path.join("assets", "shrimp_roll.png")), frame, 16, 20) for frame in range(3)],
+    "rice_roll": [
+        get_frame(pygame.image.load(config.resource_path("assets/rice_roll.png")), frame, 16, 20) for frame in range(2)
+    ],
+    "tuna_roll": [
+        get_frame(pygame.image.load(config.resource_path("assets/tuna_roll.png")), frame, 16, 20) for frame in range(3)
+    ],
+    "salmon_roll": [
+        get_frame(pygame.image.load(config.resource_path("assets/salmon_roll.png")), frame, 16, 20) for frame in range(3)
+    ],
+    "shrimp_roll": [
+        get_frame(pygame.image.load(config.resource_path("assets/shrimp_roll.png")), frame, 16, 20) for frame in range(3)
+    ],
 }
 
 recipes: dict[str, list[str]] = {

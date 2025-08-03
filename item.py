@@ -1,30 +1,30 @@
-import os
 import pygame
 from sprite_sheet import get_frame
+import config
 
 items = []
 
 
 class Item:
     images: dict[str, pygame.Surface] = {
-        "hand": pygame.image.load(os.path.join("assets", "hand.png")),
-        "knife": pygame.image.load(os.path.join("assets", "knife.png")),
-        "mat": pygame.image.load(os.path.join("assets", "mat.png")),
-        "sauce": pygame.image.load(os.path.join("assets", "sauce.png")),
-        "tuna_tray": pygame.image.load(os.path.join("assets", "tuna_tray.png")),
-        "salmon_tray": pygame.image.load(os.path.join("assets", "salmon_tray.png")),
-        "shrimp_tray": pygame.image.load(os.path.join("assets", "shrimp_tray.png")),
-        "nori_tray": pygame.image.load(os.path.join("assets", "nori_tray.png")),
-        "rice_tray": pygame.image.load(os.path.join("assets", "rice_tray.png")),
-        "tuna": pygame.image.load(os.path.join("assets", "tuna.png")),
-        "salmon": pygame.image.load(os.path.join("assets", "salmon.png")),
-        "shrimp": pygame.image.load(os.path.join("assets", "shrimp.png")),
-        "nori": pygame.image.load(os.path.join("assets", "nori.png")),
-        "rice": pygame.image.load(os.path.join("assets", "rice.png")),
-        "order_tray_score": get_frame(pygame.image.load(os.path.join("assets", "order_tray.png")), 0, 29, 16),
-        "order_tray_time": get_frame(pygame.image.load(os.path.join("assets", "order_tray.png")), 1, 29, 16),
-        "roll": pygame.image.load(os.path.join("assets", "roll.png")),
-        "piece": pygame.image.load(os.path.join("assets", "piece.png")),
+        "hand": pygame.image.load(config.resource_path("assets/hand.png")),
+        "knife": pygame.image.load(config.resource_path("assets/knife.png")),
+        "mat": pygame.image.load(config.resource_path("assets/mat.png")),
+        "sauce": pygame.image.load(config.resource_path("assets/sauce.png")),
+        "tuna_tray": pygame.image.load(config.resource_path("assets/tuna_tray.png")),
+        "salmon_tray": pygame.image.load(config.resource_path("assets/salmon_tray.png")),
+        "shrimp_tray": pygame.image.load(config.resource_path("assets/shrimp_tray.png")),
+        "nori_tray": pygame.image.load(config.resource_path("assets/nori_tray.png")),
+        "rice_tray": pygame.image.load(config.resource_path("assets/rice_tray.png")),
+        "tuna": pygame.image.load(config.resource_path("assets/tuna.png")),
+        "salmon": pygame.image.load(config.resource_path("assets/salmon.png")),
+        "shrimp": pygame.image.load(config.resource_path("assets/shrimp.png")),
+        "nori": pygame.image.load(config.resource_path("assets/nori.png")),
+        "rice": pygame.image.load(config.resource_path("assets/rice.png")),
+        "order_tray_score": get_frame(pygame.image.load(config.resource_path("assets/order_tray.png")), 0, 29, 16),
+        "order_tray_time": get_frame(pygame.image.load(config.resource_path("assets/order_tray.png")), 1, 29, 16),
+        "roll": pygame.image.load(config.resource_path("assets/roll.png")),
+        "piece": pygame.image.load(config.resource_path("assets/piece.png")),
     }
 
     def __init__(self, name: str, position: tuple[int, int]):

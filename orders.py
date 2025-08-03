@@ -6,6 +6,8 @@ import config
 import item
 import sushi
 
+complete_SFX = pygame.mixer.Sound(config.resource_path("assets/complete.wav"))
+complete_SFX.set_volume(0.1)
 
 
 class Order(item.Item):
@@ -35,6 +37,7 @@ class Order(item.Item):
         remaining_food_items = Counter(self.get_remainder())
 
         if not remaining_food_items:  # check if ready to send off
+            complete_SFX.play()
             item.items.remove(self)
             if self.type == "score":
                 config.score += self.reward
@@ -45,7 +48,7 @@ class Order(item.Item):
 
         # write remaining order
         for i, food_item in enumerate(remaining_food_items):
-            line = f"{food_item}_sushi - {remaining_food_items[food_item]}"
+            line = f"{food_item} sushi - {remaining_food_items[food_item]}"
             text = config.order_font.render(line, 1, (254, 231, 97))
             config.text_surface.blit(
                 text,

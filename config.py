@@ -1,8 +1,20 @@
+import sys
 import os
 import pygame
 
 pygame.init()
 pygame.mouse.set_visible(False)
+
+
+def resource_path(relative_path):
+    try:
+        # PyInstaller stores files in a temporary folder _MEIPASS
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 # Game
 score: int = 0
@@ -17,15 +29,15 @@ distance = 0
 
 
 # Text
-font_path = os.path.join("assets", "Font.ttf")
+font_path = resource_path("assets/Font.ttf")
 ui_font = pygame.font.Font(font_path, 16)
 tutorial_font = pygame.font.Font(font_path, 12)
 score_font = pygame.font.Font(font_path, 8)
 order_font = pygame.font.Font(font_path, 3)
 recept_font = pygame.font.Font(font_path, 4)
 
-left_click = pygame.image.load(os.path.join("assets", "mouse_left.png"))
-space_click = pygame.image.load(os.path.join("assets", "keyboard_space.png"))
+left_click = pygame.image.load(resource_path("assets/mouse_left.png"))
+space_click = pygame.image.load(resource_path("assets/keyboard_space.png"))
 
 # Internal resolution
 INTERNAL_WIDTH, INTERNAL_HEIGHT = 240, 135
@@ -85,8 +97,8 @@ def rescale_screen(new_width: int, new_height: int) -> None:
     order_font = pygame.font.Font(font_path, 3 * round(scale))
     recept_font = pygame.font.Font(font_path, 4 * round(scale))
 
-    left_click = pygame.transform.scale_by(pygame.image.load(os.path.join("assets", "mouse_left.png")), scale / 5.8)
-    space_click = pygame.transform.scale_by(pygame.image.load(os.path.join("assets", "keyboard_space.png")), scale / 5.8)
+    left_click = pygame.transform.scale_by(pygame.image.load(resource_path("assets/mouse_left.png")), scale / 5.8)
+    space_click = pygame.transform.scale_by(pygame.image.load(resource_path("assets/keyboard_space.png")), scale / 5.8)
 
 
 def reset_game_variables():

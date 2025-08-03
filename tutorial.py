@@ -1,8 +1,7 @@
-import os
 import pygame
 import config
 
-helper = pygame.image.load(os.path.join("assets", "helper.png"))
+helper = pygame.image.load(config.resource_path("assets/helper.png"))
 
 steps = {
     1: ["Press 'S' to skip this tutorial", "Use < and > to navigate steps"],
