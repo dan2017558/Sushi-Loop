@@ -1,13 +1,9 @@
-import os
 import pygame
 from collections import Counter
 import config
 import item
 import sushi
 
-font_path = os.path.join("assets", "Font.ttf")
-order_font = pygame.font.Font(font_path, 16)
-recept_font = pygame.font.Font(font_path, 20)
 
 
 class Order(item.Item):
@@ -38,7 +34,7 @@ class Order(item.Item):
 
         for i, food_item in enumerate(remaining_food_items):
             line = f"{food_item} - {remaining_food_items[food_item]}"
-            text = order_font.render(line, 1, (255, 255, 255))
+            text = config.order_font.render(line, 1, (255, 255, 255))
             config.text_surface.blit(
                 text,
                 (
@@ -66,5 +62,5 @@ class Order(item.Item):
         # draw recept / score player gets when completing  order
         pygame.draw.rect(config.internal_surface, (255, 255, 255), (self.rect.right - 7, self.rect.bottom, 5, 6))
         price = str(self.score)
-        text = recept_font.render(price, 1, (0, 0, 0))
+        text = config.recept_font.render(price, 1, (0, 0, 0))
         config.text_surface.blit(text, ((self.rect.right - 6) * config.scale, self.rect.bottom * config.scale))

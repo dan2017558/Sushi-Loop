@@ -12,14 +12,9 @@ from orders import Order
 # assets
 belt = pygame.image.load(os.path.join("assets", "belt.png"))
 table = pygame.image.load(os.path.join("assets", "table.png"))
-left_click = pygame.image.load(os.path.join("assets", "mouse_left.png"))
-space_click = pygame.image.load(os.path.join("assets", "keyboard_space.png"))
 
 touch_SFX = pygame.mixer.Sound("assets/touch.wav")
 touch_SFX.set_volume(0.1)
-
-font_path = os.path.join("assets", "Font.ttf")
-score_font = pygame.font.Font(font_path, 40)
 
 
 def game():
@@ -38,21 +33,32 @@ def game():
                     # HOLDING OBJECTS
                     if not isinstance(obj, Order):
                         config.text_surface.blit(
-                            left_click, (config.WINDOW_WIDTH - 128, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2
+                            config.left_click,
+                            (
+                                config.text_surface.get_width() - (64 * config.scale / 5.8) * 2,
+                                config.text_surface.get_height() - (64 * config.scale / 5.8),
+                            ),
                         )
 
                     # USING ITEMS
                     if isinstance(hand.item, Mat) and hand.item.complete:  # roll mat
                         config.text_surface.blit(
-                            space_click, (config.WINDOW_WIDTH - 64, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2
+                            config.space_click,
+                            (
+                                config.text_surface.get_width() - (64 * config.scale / 5.8),
+                                config.text_surface.get_height() - (64 * config.scale / 5.8),
+                            ),
                         )
 
                     if isinstance(hand.item, Knife):  # cut roll
                         for sushi in filter(lambda x: isinstance(x, Roll), item.items):
                             if hand.item.rect.colliderect(sushi.rect):
                                 config.text_surface.blit(
-                                    space_click,
-                                    (config.WINDOW_WIDTH - 64, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2,
+                                    config.space_click,
+                                    (
+                                        config.text_surface.get_width() - (64 * config.scale / 5.8),
+                                        config.text_surface.get_height() - (64 * config.scale / 5.8),
+                                    ),
                                 )
 
                     if isinstance(hand.item, Sauce):  # apply sauce
@@ -61,8 +67,11 @@ def game():
                                 for food in mat.projected:
                                     if recipes[food][len(mat.contents)] == "sauce":
                                         config.text_surface.blit(
-                                            space_click,
-                                            (config.WINDOW_WIDTH - 64, config.WINDOW_HEIGHT - 64) - config.letter_box_offset * 2,
+                                            config.space_click,
+                                            (
+                                                config.text_surface.get_width() - (64 * config.scale / 5.8),
+                                                config.text_surface.get_height() - (64 * config.scale / 5.8),
+                                            ),
                                         )
 
         for event in pygame.event.get():
@@ -165,9 +174,13 @@ def game():
         config.internal_surface.blit(hand.image, hand.rect.topleft)
 
         # score
-        score_text = score_font.render(f"Score: {config.score}", 1, (255, 255, 255))
+        score_text = config.score_font.render(f"Score: {config.score}", 1, (255, 255, 255))
         config.text_surface.blit(
-            score_text, (config.WINDOW_WIDTH // 2 - score_text.get_rect()[2] // 2, score_text.get_rect()[3] + 30 * config.scale)
+            score_text,
+            (
+                config.INTERNAL_WIDTH * config.scale // 2 - 10 * config.scale,
+                config.INTERNAL_HEIGHT * config.scale // 2 - 30 * config.scale,
+            ),
         )
 
         # button hints
