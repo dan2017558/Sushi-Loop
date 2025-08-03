@@ -21,8 +21,12 @@ def game():
     pygame.init()
 
     clock = pygame.time.Clock()
+    start_time = pygame.time.get_ticks()
     running = True
     while running:
+        if config.time_left - (pygame.time.get_ticks() - start_time) // 1000 <= 0:
+            break
+
         config.internal_surface.fill((0, 0, 0, 0))  # reset
         config.text_surface.fill((0, 0, 0, 0))  # reset
         hand.update()
@@ -176,12 +180,16 @@ def game():
                 config.internal_surface.blit(hand.item.food_image, hand.item.rect.topleft + pygame.Vector2(2, 1))
         config.internal_surface.blit(hand.image, hand.rect.topleft)
 
-        # score
-        score_text = config.score_font.render(f"Score: {config.score}", 1, (255, 255, 255))
+        # score and time
+        score_text = config.score_font.render(
+            f"Score: {config.score}  Time: {config.time_left - (pygame.time.get_ticks() - start_time) // 1000}",
+            1,
+            (255, 255, 255),
+        )
         config.text_surface.blit(
             score_text,
             (
-                config.INTERNAL_WIDTH * config.scale // 2 - 10 * config.scale,
+                config.INTERNAL_WIDTH * config.scale // 2 - 30 * config.scale,
                 config.INTERNAL_HEIGHT * config.scale // 2 - 30 * config.scale,
             ),
         )
