@@ -19,6 +19,7 @@ distance = 0
 # Text
 font_path = os.path.join("assets", "Font.ttf")
 ui_font = pygame.font.Font(font_path, 16)
+tutorial_font = pygame.font.Font(font_path, 12)
 score_font = pygame.font.Font(font_path, 8)
 order_font = pygame.font.Font(font_path, 3)
 recept_font = pygame.font.Font(font_path, 4)
@@ -53,6 +54,7 @@ def rescale_screen(new_width: int, new_height: int) -> None:
         letter_box_offset, \
         scale, \
         ui_font, \
+        tutorial_font, \
         score_font, \
         order_font, \
         recept_font, \
@@ -78,6 +80,7 @@ def rescale_screen(new_width: int, new_height: int) -> None:
 
     # scale fonts
     ui_font = pygame.font.Font(font_path, 16 * round(scale))
+    tutorial_font = pygame.font.Font(font_path, 12 * round(scale))
     score_font = pygame.font.Font(font_path, 8 * round(scale))
     order_font = pygame.font.Font(font_path, 3 * round(scale))
     recept_font = pygame.font.Font(font_path, 4 * round(scale))

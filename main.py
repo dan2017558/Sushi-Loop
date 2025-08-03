@@ -3,6 +3,7 @@ import os
 import pygame
 import config
 import item
+import tutorial
 from tools import Hand, Knife, Sauce
 from sushi import Roll, Sushi
 from build_sushi import Mat, recipes
@@ -19,8 +20,9 @@ touch_SFX.set_volume(0.1)
 
 
 def game():
-    global running, run_game
-    if config.time_left - (pygame.time.get_ticks() - start_time) // 1000 <= 0:
+    global running, run_game, run_tutorial, tutorial_step
+    if config.time_left - (pygame.time.get_ticks() - start_time) // 1000 <= 0 and not run_tutorial:
+        conveyor_belt_SFX.stop()
         run_game = False
         return
 
@@ -123,26 +125,43 @@ def game():
             hand.item = None
 
         # USE - PRESS SPACE BAR
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            if not hand.item:
-                continue
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if not hand.item:
+                    continue
 
-            match hand.item:
-                case Knife():  # cut roll
-                    for sushi in filter(lambda x: isinstance(x, Roll), item.items):
-                        if hand.item.rect.colliderect(sushi.rect):
-                            sushi.cut()
-                            break
+                match hand.item:
+                    case Knife():  # cut roll
+                        for sushi in filter(lambda x: isinstance(x, Roll), item.items):
+                            if hand.item.rect.colliderect(sushi.rect):
+                                sushi.cut()
+                                break
 
-                case Sauce():  # apply sauce
-                    for mat in filter(lambda x: isinstance(x, Mat), item.items):
-                        if hand.item.rect.colliderect(mat.rect):
-                            mat.try_place("sauce", hand)
-                            break
+                    case Sauce():  # apply sauce
+                        for mat in filter(lambda x: isinstance(x, Mat), item.items):
+                            if hand.item.rect.colliderect(mat.rect):
+                                mat.try_place("sauce", hand)
+                                break
 
-                case Mat():  # roll mat
-                    if hand.item.complete:
-                        hand.item.roll()
+                    case Mat():  # roll mat
+                        if hand.item.complete:
+                            hand.item.roll()
+
+            # TUTORIAL
+            if run_tutorial:
+                if event.key == pygame.K_s:
+                    reset_game()
+                    run_tutorial = False
+
+                elif event.key == pygame.K_LEFT:
+                    tutorial_step -= 1
+                    if tutorial_step < 1:
+                        tutorial_step = 1
+                elif event.key == pygame.K_RIGHT:
+                    tutorial_step += 1
+                    if tutorial_step > 30:
+                        reset_game()
+                        run_tutorial = False
 
     # Drawing
     # conveyor belt
@@ -190,14 +209,40 @@ def game():
     # button hints
     draw_button_hints()
 
+    if run_tutorial:
+        tutorial.tutorial(tutorial_step)
+
 
 if __name__ == "__main__":
     running = True
     run_game = False
+    run_tutorial = True
     clock = pygame.time.Clock()
 
     alpha = 0
     fade_in = True
+
+    def reset_game():
+        global hand, start_time, run_game, run_tutorial, tutorial_step
+        config.reset_game_variables()
+        item.items.clear()
+
+        # Initialize Objects
+        hand = Hand()
+        Knife()
+        Sauce()
+        Mat()
+        Tray("salmon_tray", (4, 37))
+        Tray("tuna_tray", (31, 37))
+        Tray("shrimp_tray", (4, 71))
+        Tray("nori_tray", (31, 71))
+        Tray("rice_tray", (2, 105))
+
+        start_time = pygame.time.get_ticks()
+        conveyor_belt_SFX.play(-1)
+        run_game = True
+        run_tutorial = True
+        tutorial_step = 1
 
     while running:
         config.internal_surface.fill((0, 0, 0, 0))  # reset
@@ -215,22 +260,7 @@ if __name__ == "__main__":
                     config.rescale_screen(event.w, event.h)
 
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    config.reset_game_variables()
-                    # Initialize Objects
-                    hand = Hand()
-                    Knife()
-                    Sauce()
-                    Mat()
-                    Tray("salmon_tray", (4, 37))
-                    Tray("tuna_tray", (31, 37))
-                    Tray("shrimp_tray", (4, 71))
-                    Tray("nori_tray", (31, 71))
-                    Tray("rice_tray", (2, 105))
-
-                    start_time = pygame.time.get_ticks()
-                    running = True
-                    conveyor_belt_SFX.play(-1)
-                    run_game = True
+                    reset_game()
 
             # adjust alpha for fade in/out
             if fade_in:
@@ -256,7 +286,6 @@ if __name__ == "__main__":
             )
 
             config.internal_surface.blit(wallpaper, (0, 0))
-
         else:
             game()
 
