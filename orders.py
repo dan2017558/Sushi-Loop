@@ -88,7 +88,7 @@ def generate_order(spot_index: int):
     base = num_items * 5 + food_variety * 6  # weighted sum
     variation = random.uniform(0.9, 1.1)  # slight random fuzz
 
-    reward = int(base * variation)
+    reward = int(base * variation / config.difficulty)
     reward = max(10, min(50, reward))  # clamp to 10–50 range
 
     # fill order

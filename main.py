@@ -23,11 +23,19 @@ touch_SFX.set_volume(0.1)
 
 def game():
     global running, run_game, run_tutorial, tutorial_step, button_hints
-    if config.time_left - (pygame.time.get_ticks() - start_time) // 1000 <= 0 and not run_tutorial:
+
+    time_elapsed = (pygame.time.get_ticks() - start_time) // 1000
+
+    # check for loss
+    if config.time_left - time_elapsed <= 0 and not run_tutorial:
         config.save_highscore(config.score)
         conveyor_belt_SFX.stop()
         run_game = False
         return
+
+    # increase difficulty
+    config.difficulty = 1 + time_elapsed / 100
+    config.busyness = 0.5 + time_elapsed / 100 if 0.5 + time_elapsed / 100 < 1 else 1
 
     spawn()  # tries to spawn order trays
     hand.update()
@@ -204,9 +212,7 @@ def game():
     config.internal_surface.blit(hand.image, hand.rect.topleft)
 
     # score and time
-    score_text = config.score_font.render(
-        f"Score: {config.score}  Time: {config.time_left - (pygame.time.get_ticks() - start_time) // 1000}", 1, (255, 255, 255)
-    )
+    score_text = config.score_font.render(f"Score: {config.score}  Time: {config.time_left - time_elapsed}", 1, (255, 255, 255))
     config.text_surface.blit(
         score_text,
         (

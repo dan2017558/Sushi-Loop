@@ -38,6 +38,7 @@ def save_highscore(new_score):
 score: int = 0
 time_left: int = 60
 busyness: float = 0.5
+difficulty: float = 1
 order_spots: int = [[i * 40, None] for i in range(480 // 40)]
 
 # conveyor belt
@@ -120,11 +121,12 @@ def rescale_screen(new_width: int, new_height: int) -> None:
 
 
 def reset_game_variables():
-    global score, time_left, busyness, order_spots, belt_speed, belt_circumference, distance
+    global score, time_left, busyness, order_spots, belt_speed, belt_circumference, distance, difficulty
     # Game
     score = 0
     time_left = 60
     busyness = 0.5
+    difficulty = 1
     order_spots = [[i * 40, None] for i in range(480 // 40)]
 
     # conveyor belt
