@@ -4,6 +4,8 @@ import item
 from sushi import Roll
 import config
 
+roll_SFX = pygame.mixer.Sound(config.resource_path("assets/roll.wav"))
+
 foods = {
     "rice_roll": [
         get_frame(pygame.image.load(config.resource_path("assets/rice_roll.png")), frame, 16, 20) for frame in range(2)
@@ -72,6 +74,7 @@ class Mat(item.Item):
 
     def roll(self):
         if self.complete:  # can only roll completed foods
+            roll_SFX.play()
             Roll(self.contents[0], self.rect.topleft + pygame.Vector2(2, 1))
 
             # reset mat

@@ -2,6 +2,9 @@ import pygame
 import config
 import item
 
+cut_SFX = pygame.mixer.Sound(config.resource_path("assets/chop.ogg"))
+cut_SFX.set_volume(0.1)
+
 
 class Sushi(item.Item):
     images = {
@@ -30,3 +33,4 @@ class Roll(item.Item):
         piece_type = self.roll_type.removesuffix("_roll")
         for piece in range(8):
             Sushi("piece", self.rect.topleft + pygame.Vector2(2 * piece, 0), piece_type)
+        cut_SFX.play()
