@@ -1,5 +1,6 @@
 import os
 import pygame
+from sprite_sheet import get_frame
 
 items = []
 
@@ -20,7 +21,8 @@ class Item:
         "shrimp": pygame.image.load(os.path.join("assets", "shrimp.png")),
         "nori": pygame.image.load(os.path.join("assets", "nori.png")),
         "rice": pygame.image.load(os.path.join("assets", "rice.png")),
-        "order_tray": pygame.image.load(os.path.join("assets", "order_tray.png")),
+        "order_tray_score": get_frame(pygame.image.load(os.path.join("assets", "order_tray.png")), 0, 29, 16),
+        "order_tray_time": get_frame(pygame.image.load(os.path.join("assets", "order_tray.png")), 1, 29, 16),
         "roll": pygame.image.load(os.path.join("assets", "roll.png")),
         "piece": pygame.image.load(os.path.join("assets", "piece.png")),
     }

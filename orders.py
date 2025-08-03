@@ -7,12 +7,13 @@ import sushi
 
 
 class Order(item.Item):
-    def __init__(self, order: list, score: int):
-        super().__init__("order_tray", (140, 6))
-        self.score: int = score
+    def __init__(self, order: list, position: tuple[int, int], reward: int, type: str):
+        super().__init__(f"order_tray_{type}", position)
+        self.type = type
+        self.reward: int = reward
         self.order: list = order  # what the "customer" has ordered
         self.contents: list = []
-        self.start: tuple[int, int] = (140, 6)
+        self.start: tuple[int, int] = position
 
     def get_remainder(self):  # returns the remaining items needed to satisfy the order
         remainder = list((Counter(self.order) - Counter(self.contents)).elements())
@@ -29,7 +30,10 @@ class Order(item.Item):
 
         if not remaining_food_items:  # check if ready to send off
             item.items.remove(self)
-            config.score += self.score
+            if self.type == "score":
+                config.score += self.reward
+            else:
+                config.time_left += self.reward
             return
 
         for i, food_item in enumerate(remaining_food_items):
@@ -59,8 +63,8 @@ class Order(item.Item):
                 sushi.Sushi.images[food_item], (self.rect.left + 18 + col * 5, self.rect.top + 1 + row * 5)
             )
 
-        # draw recept / score player gets when completing  order
+        # draw recept / reward player gets when completing  order
         pygame.draw.rect(config.internal_surface, (255, 255, 255), (self.rect.right - 7, self.rect.bottom, 5, 6))
-        price = str(self.score)
+        price = str(self.reward)
         text = config.recept_font.render(price, 1, (0, 0, 0))
         config.text_surface.blit(text, ((self.rect.right - 6) * config.scale, self.rect.bottom * config.scale))
