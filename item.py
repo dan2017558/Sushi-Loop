@@ -20,6 +20,9 @@ class Item:
         "shrimp": pygame.image.load(os.path.join("assets", "shrimp.png")),
         "nori": pygame.image.load(os.path.join("assets", "nori.png")),
         "rice": pygame.image.load(os.path.join("assets", "rice.png")),
+        "order_tray": pygame.image.load(os.path.join("assets", "order_tray.png")),
+        "roll": pygame.image.load(os.path.join("assets", "roll.png")),
+        "piece": pygame.image.load(os.path.join("assets", "piece.png")),
     }
 
     def __init__(self, name: str, position: tuple[int, int]):
