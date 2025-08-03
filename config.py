@@ -18,6 +18,7 @@ distance = 0
 
 # Text
 font_path = os.path.join("assets", "Font.ttf")
+ui_font = pygame.font.Font(font_path, 16)
 score_font = pygame.font.Font(font_path, 8)
 order_font = pygame.font.Font(font_path, 3)
 recept_font = pygame.font.Font(font_path, 4)
@@ -30,7 +31,7 @@ INTERNAL_WIDTH, INTERNAL_HEIGHT = 240, 135
 
 # Window Settings
 win = pygame.display.set_mode((pygame.display.Info().current_w - 50, pygame.display.Info().current_h - 50), pygame.RESIZABLE)
-pygame.display.set_caption("GMTK Jam 2025")
+pygame.display.set_caption("Sushi Loop")
 
 # surfaces
 internal_surface = pygame.Surface((INTERNAL_WIDTH, INTERNAL_HEIGHT), pygame.SRCALPHA)
@@ -51,6 +52,7 @@ def rescale_screen(new_width: int, new_height: int) -> None:
         text_surface, \
         letter_box_offset, \
         scale, \
+        ui_font, \
         score_font, \
         order_font, \
         recept_font, \
@@ -75,12 +77,27 @@ def rescale_screen(new_width: int, new_height: int) -> None:
     text_surface = pygame.Surface(scaled_size, pygame.SRCALPHA).convert_alpha()
 
     # scale fonts
+    ui_font = pygame.font.Font(font_path, 16 * round(scale))
     score_font = pygame.font.Font(font_path, 8 * round(scale))
     order_font = pygame.font.Font(font_path, 3 * round(scale))
     recept_font = pygame.font.Font(font_path, 4 * round(scale))
 
     left_click = pygame.transform.scale_by(pygame.image.load(os.path.join("assets", "mouse_left.png")), scale / 5.8)
     space_click = pygame.transform.scale_by(pygame.image.load(os.path.join("assets", "keyboard_space.png")), scale / 5.8)
+
+
+def reset_game_variables():
+    global score, time_left, busyness, order_spots, belt_speed, belt_circumference, distance
+    # Game
+    score = 0
+    time_left = 60
+    busyness = 0.5
+    order_spots = [[i * 40, None] for i in range(480 // 40)]
+
+    # conveyor belt
+    belt_speed = 1
+    belt_circumference = 480
+    distance = 0
 
 
 rescale_screen(win.get_width(), win.get_height())
