@@ -2,16 +2,16 @@ import pygame
 import config
 import item
 
-cut_SFX = pygame.mixer.Sound(config.resource_path("assets/chop.ogg"))
+cut_SFX = pygame.mixer.Sound(config.resource_path("assets/audio/chop.ogg"))
 cut_SFX.set_volume(0.1)
 
 
 class Sushi(item.Item):
     images = {
-        "rice": pygame.image.load(config.resource_path("assets/rice_sushi.png")),
-        "tuna": pygame.image.load(config.resource_path("assets/tuna_sushi.png")),
-        "salmon": pygame.image.load(config.resource_path("assets/salmon_sushi.png")),
-        "shrimp": pygame.image.load(config.resource_path("assets/shrimp_sushi.png")),
+        "rice": pygame.image.load(config.resource_path("assets/sprites/rice_sushi.png")),
+        "tuna": pygame.image.load(config.resource_path("assets/sprites/tuna_sushi.png")),
+        "salmon": pygame.image.load(config.resource_path("assets/sprites/salmon_sushi.png")),
+        "shrimp": pygame.image.load(config.resource_path("assets/sprites/shrimp_sushi.png")),
     }
 
     def __init__(self, name, position, piece_type):

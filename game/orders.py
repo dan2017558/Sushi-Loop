@@ -6,7 +6,7 @@ import config
 import item
 import sushi
 
-complete_SFX = pygame.mixer.Sound(config.resource_path("assets/complete.wav"))
+complete_SFX = pygame.mixer.Sound(config.resource_path("assets/audio/complete.wav"))
 complete_SFX.set_volume(0.1)
 
 

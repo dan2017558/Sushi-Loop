@@ -4,20 +4,20 @@ import item
 from sushi import Roll
 import config
 
-roll_SFX = pygame.mixer.Sound(config.resource_path("assets/roll.wav"))
+roll_SFX = pygame.mixer.Sound(config.resource_path("assets/audio/roll.wav"))
 
 foods = {
     "rice_roll": [
-        get_frame(pygame.image.load(config.resource_path("assets/rice_roll.png")), frame, 16, 20) for frame in range(2)
+        get_frame(pygame.image.load(config.resource_path("assets/sprites/rice_roll.png")), frame, 16, 20) for frame in range(2)
     ],
     "tuna_roll": [
-        get_frame(pygame.image.load(config.resource_path("assets/tuna_roll.png")), frame, 16, 20) for frame in range(3)
+        get_frame(pygame.image.load(config.resource_path("assets/sprites/tuna_roll.png")), frame, 16, 20) for frame in range(3)
     ],
     "salmon_roll": [
-        get_frame(pygame.image.load(config.resource_path("assets/salmon_roll.png")), frame, 16, 20) for frame in range(3)
+        get_frame(pygame.image.load(config.resource_path("assets/sprites/salmon_roll.png")), frame, 16, 20) for frame in range(3)
     ],
     "shrimp_roll": [
-        get_frame(pygame.image.load(config.resource_path("assets/shrimp_roll.png")), frame, 16, 20) for frame in range(3)
+        get_frame(pygame.image.load(config.resource_path("assets/sprites/shrimp_roll.png")), frame, 16, 20) for frame in range(3)
     ],
 }
 

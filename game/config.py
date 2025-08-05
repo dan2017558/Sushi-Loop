@@ -18,7 +18,7 @@ def resource_path(relative_path):
 
 # load highscore
 def load_highscore():
-    with open(resource_path("highscore.txt"), "r") as f:
+    with open(resource_path("game/highscore.txt"), "r") as f:
         return f.read().strip()
 
 
@@ -27,10 +27,10 @@ def save_highscore(new_score):
     if load_highscore():
         current = int(load_highscore())
         if new_score > current:
-            with open(resource_path("highscore.txt"), "w") as f:
+            with open(resource_path("game/highscore.txt"), "w") as f:
                 f.write(str(new_score))
     else:
-        with open(resource_path("highscore.txt"), "w") as f:
+        with open(resource_path("game/highscore.txt"), "w") as f:
             f.write(str(new_score))
 
 
@@ -55,8 +55,8 @@ score_font = pygame.font.Font(font_path, 8)
 order_font = pygame.font.Font(font_path, 3)
 recept_font = pygame.font.Font(font_path, 4)
 
-left_click = pygame.image.load(resource_path("assets/mouse_left.png"))
-space_click = pygame.image.load(resource_path("assets/keyboard_space.png"))
+left_click = pygame.image.load(resource_path("assets/sprites/mouse_left.png"))
+space_click = pygame.image.load(resource_path("assets/sprites/keyboard_space.png"))
 
 # Internal resolution
 INTERNAL_WIDTH, INTERNAL_HEIGHT = 240, 135
@@ -116,8 +116,8 @@ def rescale_screen(new_width: int, new_height: int) -> None:
     order_font = pygame.font.Font(font_path, 3 * round(scale))
     recept_font = pygame.font.Font(font_path, 4 * round(scale))
 
-    left_click = pygame.transform.scale_by(pygame.image.load(resource_path("assets/mouse_left.png")), scale / 5.8)
-    space_click = pygame.transform.scale_by(pygame.image.load(resource_path("assets/keyboard_space.png")), scale / 5.8)
+    left_click = pygame.transform.scale_by(pygame.image.load(resource_path("assets/sprites/mouse_left.png")), scale / 5.8)
+    space_click = pygame.transform.scale_by(pygame.image.load(resource_path("assets/sprites/keyboard_space.png")), scale / 5.8)
 
 
 def reset_game_variables():
