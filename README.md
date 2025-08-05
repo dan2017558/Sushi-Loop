@@ -1,3 +1,9 @@
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+![Python Version](https://img.shields.io/badge/python-3.10-blue)
+![GitHub last commit](https://img.shields.io/github/last-commit/dan2017558/sushi-loop)
+![GitHub stars](https://img.shields.io/github/stars/dan2017558/sushi-loop?style=social)
+![GitHub forks](https://img.shields.io/github/forks/dan2017558/sushi-loop?style=social)
+
 # 🍣 Sushi Loop
 
 Made for **GMTK Game Jam 2025**
