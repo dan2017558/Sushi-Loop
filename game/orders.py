@@ -28,6 +28,7 @@ class Order(item.Item):
         if food_item.piece_type in self.get_remainder():
             self.contents.append(food_item.piece_type)
             item.items.remove(food_item)
+            config.score += 1  # give extra score placing sushi
 
     def update(self):
         # rect
@@ -43,6 +44,7 @@ class Order(item.Item):
                 config.score += self.reward
             else:
                 config.time_left += self.reward
+            config.score += 5  # give extra score for completing an order
             config.order_spots[self.spot][1] = None  # clear belt spot
             return
 
