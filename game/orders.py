@@ -3,6 +3,7 @@ import random
 import pygame
 from collections import Counter
 import config
+from score_particle import spawn_score_explosion
 import item
 import sushi
 
@@ -15,6 +16,7 @@ class Order(item.Item):
         super().__init__(f"order_tray_{type}", position)
         self.type = type
         self.reward: int = reward
+        self.score_particles: list[int] = []
         self.order: list = order  # what the "customer" has ordered
         self.contents: list = []
         self.start: tuple[int, int] = position
@@ -28,6 +30,7 @@ class Order(item.Item):
         if food_item.piece_type in self.get_remainder():
             self.contents.append(food_item.piece_type)
             item.items.remove(food_item)
+            self.score_particles.append((1, "s"))  # give extra score placing sushi
 
     def update(self):
         # rect
@@ -39,11 +42,25 @@ class Order(item.Item):
         if not remaining_food_items:  # check if ready to send off
             complete_SFX.play()
             item.items.remove(self)
+
             if self.type == "score":
-                config.score += self.reward
+                self.score_particles.append((self.reward, "s"))
             else:
-                config.time_left += self.reward
+                self.score_particles.append((self.reward, "t"))
+
+            self.score_particles.append((5, "s"))  # give extra score for completing an order
             config.order_spots[self.spot][1] = None  # clear belt spot
+
+        # blit score particles
+        if self.score_particles:
+            config.score += sum([particle[0] for particle in self.score_particles if particle[1] == "s"])
+            config.time_left += sum([particle[0] for particle in self.score_particles if particle[1] == "t"])
+
+            spawn_score_explosion(self.rect.center, self.score_particles)
+            self.score_particles.clear()
+
+        # check if order is still incomplete
+        if not config.order_spots[self.spot][1]:
             return
 
         # write remaining order

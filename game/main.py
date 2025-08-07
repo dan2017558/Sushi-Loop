@@ -1,6 +1,7 @@
 import sys
 import pygame
 import config
+import score_particle
 import item
 import tutorial
 from tools import Hand, Knife, Sauce
@@ -212,6 +213,12 @@ def game():
     config.internal_surface.blit(hand.image, hand.rect.topleft)
 
     # score and time
+    for particle in score_particle.score_particles[:]:  # Copy
+        particle.update()
+        particle.draw()
+        if not particle.is_alive():
+            score_particle.score_particles.remove(particle)
+
     score_text = config.score_font.render(f"Score: {config.score}  Time: {config.time_left - time_elapsed}", 1, (255, 255, 255))
     config.text_surface.blit(
         score_text,
